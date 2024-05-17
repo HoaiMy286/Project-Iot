@@ -131,15 +131,6 @@ class Controller:
         else:
             print("temperature reading out of variance: ", new_temperature)
 
-    # def update_soil_sensor(self):
-    #     moisture = readMoisture()
-    #     temperature = readTemperature()
-
-    #     print("moisture: ", moisture)
-    #     self.client2.publish("soil-moisture", moisture)
-    #     print("soil temp: ", temperature)
-    #     self.client2.publish("temperature", temperature)
-
     # =====================================
     # =====================================
 
@@ -171,7 +162,7 @@ class Controller:
             self.client1.publish("notification", 1)
             setMixer1(True)
             elapsed_time = (now - self.previous_state_start_time).total_seconds()
-            if int(readFlow()) == int(self.fertilizer_id1) or elapsed_time >= int(self.fertilizer_id1) / 2:
+            if int(readFlow()) >= int(self.fertilizer_id1) or elapsed_time >= int(self.fertilizer_id1) / 2:
                 setMixer1(False)
                 self.state = "MIXER_2"
                 self.previous_state_start_time = now
@@ -181,7 +172,7 @@ class Controller:
             self.client1.publish("notification", 2)
             setMixer2(True)
             elapsed_time = (now - self.previous_state_start_time).total_seconds()
-            if int(readFlow()) == int(self.fertilizer_id2) or elapsed_time >= int(self.fertilizer_id2) / 2:
+            if int(readFlow()) >= int(self.fertilizer_id2) or elapsed_time >= int(self.fertilizer_id2) / 2:
                 setMixer2(False)
                 self.state = "MIXER_3"
                 self.previous_state_start_time = now
@@ -191,7 +182,7 @@ class Controller:
             self.client1.publish("notification", 3)
             setMixer3(True)
             elapsed_time = (now - self.previous_state_start_time).total_seconds()
-            if int(readFlow()) == int(self.fertilizer_id3) or elapsed_time >= int(self.fertilizer_id3) / 2:
+            if int(readFlow()) >= int(self.fertilizer_id3) or elapsed_time >= int(self.fertilizer_id3) / 2:
                 setMixer3(False)
                 self.state = "PUMP_IN"
                 self.previous_state_start_time = now
@@ -201,7 +192,7 @@ class Controller:
             self.client1.publish("notification", 4)
             setPumpIn(True)
             elapsed_time = (now - self.previous_state_start_time).total_seconds()
-            if int(readSonar()) == 200 or elapsed_time >= 60:
+            if int(readSonar()) <= 100 or elapsed_time >= 60:
                 setPumpIn(False)
                 self.state = "SELECTOR"
                 self.previous_state_start_time = now
@@ -227,7 +218,7 @@ class Controller:
             self.client1.publish("notification", 5)
             setPumpOut(True)
             elapsed_time = (now - self.previous_state_start_time).total_seconds()
-            if int(readSonar()) == 400 or elapsed_time >= 60:
+            if int(readSonar()) >= 200 or elapsed_time >= 60:
                 setPumpOut(False)
                 self.state = "NEXT_CYCLE"
                 self.previous_state_start_time = now
