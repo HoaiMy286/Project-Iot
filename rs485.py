@@ -14,11 +14,12 @@ def getPort():
     return commPort
     # return "/dev/ttyUSB1"
 
-portName = "COM3"
-print(portName)
+# portName = "COM3"
+# portName = getPort()
+print(getPort())
 
 try:
-    ser = serial.Serial(port=portName, baudrate=115200)
+    ser = serial.Serial(port=getPort(), baudrate=9600)
     print("Open successfully")
 except:
     print("Can not open the port")
@@ -67,28 +68,30 @@ def readMoisture():
 # ==================================================
 # =========     FLOW SENSOR       ==================
 
-flow_sensor = [1, 3, 0, 1, 0, 1, 213, 202]
+# flow_sensor = [1, 3, 0, 1, 0, 1, 213, 202]
 def readFlow():
-    serial_read_data(ser)
-    ser.write(flow_sensor)
-    time.sleep(1)
-    return serial_read_data(ser)
+    # serial_read_data(ser)
+    # ser.write(flow_sensor)
+    # time.sleep(1)
+    # return serial_read_data(ser)
+    return 40
 
 # ==================================================
 # =========     SONAR SENSOR        ================
 
-sonar_sensor = [1, 3, 0, 2, 0, 1, 37, 202]
+# sonar_sensor = [1, 3, 0, 2, 0, 1, 37, 202]
 def readSonar():
-    serial_read_data(ser)
-    ser.write(sonar_sensor)
-    time.sleep(1)
-    return serial_read_data(ser)
+    # serial_read_data(ser)
+    # ser.write(sonar_sensor)
+    # time.sleep(1)
+    # return serial_read_data(ser)
+    return 100
 
 # ==================================================
 # =========     MIXER 1        =====================
 
-mixer1_ON  = [1, 6, 0, 0, 0, 255, 200, 91]
-mixer1_OFF = [1, 6, 0, 0, 0, 0, 136, 27]
+mixer1_ON  = [1, 6, 0, 0, 0, 255, 201, 138]
+mixer1_OFF = [1, 6, 0, 0, 0, 0, 137, 202]
 
 def setMixer1(state):
     if state == True:
@@ -101,8 +104,8 @@ def setMixer1(state):
 # ==================================================
 # =========     MIXER 2        =====================
 
-mixer2_ON  = [2, 6, 0, 0, 0, 255, 200, 91]
-mixer2_OFF = [2, 6, 0, 0, 0, 0, 136, 27]
+mixer2_ON  = [2, 6, 0, 0, 0, 255, 201, 185]
+mixer2_OFF = [2, 6, 0, 0, 0, 0, 137, 249]
 
 def setMixer2(state):
     if state == True:
@@ -115,8 +118,8 @@ def setMixer2(state):
 # ==================================================
 # =========     MIXER 3        =====================
 
-mixer3_ON  = [3, 6, 0, 0, 0, 255, 200, 91]
-mixer3_OFF = [3, 6, 0, 0, 0, 0, 136, 27]
+mixer3_ON  = [3, 6, 0, 0, 0, 255, 200, 104]
+mixer3_OFF = [3, 6, 0, 0, 0, 0, 136, 40]
 
 def setMixer3(state):
     if state == True:
@@ -129,8 +132,8 @@ def setMixer3(state):
 # ==================================================
 # =========     SELECTOR 4        ==================
 
-selector4_ON  = [4, 6, 0, 0, 0, 255, 200, 91]
-selector4_OFF = [4, 6, 0, 0, 0, 0, 136, 27]
+selector4_ON  = [4, 6, 0, 0, 0, 255, 201, 223]
+selector4_OFF = [4, 6, 0, 0, 0, 0, 137, 159]
 
 def setSelector4(state):
     if state == True:
@@ -143,8 +146,8 @@ def setSelector4(state):
 # ==================================================
 # =========     SELECTOR 5        ==================
 
-selector5_ON  = [5, 6, 0, 0, 0, 255, 200, 91]
-selector5_OFF = [5, 6, 0, 0, 0, 0, 136, 27]
+selector5_ON  = [5, 6, 0, 0, 0, 255, 200, 14]
+selector5_OFF = [5, 6, 0, 0, 0, 0, 136, 78]
 
 def setSelector5(state):
     if state == True:
@@ -157,8 +160,8 @@ def setSelector5(state):
 # ==================================================
 # =========     SELECTOR 5        ==================
 
-selector6_ON  = [6, 6, 0, 0, 0, 255, 200, 91]
-selector6_OFF = [6, 6, 0, 0, 0, 0, 136, 27]
+selector6_ON  = [6, 6, 0, 0, 0, 255, 200, 61]
+selector6_OFF = [6, 6, 0, 0, 0, 0, 136, 125]
 
 def setSelector6(state):
     if state == True:
@@ -171,8 +174,8 @@ def setSelector6(state):
 # ==================================================
 # =========     PUMP IN 7         ==================
 
-pumpin_ON  = [7, 6, 0, 0, 0, 255, 200, 91]
-pumpin_OFF = [7, 6, 0, 0, 0, 0, 136, 27]
+pumpin_ON  = [7, 6, 0, 0, 0, 255, 201, 236]
+pumpin_OFF = [7, 6, 0, 0, 0, 0, 137, 172]
 
 def setPumpIn(state):
     if state == True:
@@ -185,8 +188,8 @@ def setPumpIn(state):
 # ==================================================
 # =========     PUMP OUT 8        ==================
 
-pumpout_ON  = [8, 6, 0, 0, 0, 255, 200, 91]
-pumpout_OFF = [8, 6, 0, 0, 0, 0, 136, 27]
+pumpout_ON  = [8, 6, 0, 0, 0, 255, 201, 19]
+pumpout_OFF = [8, 6, 0, 0, 0, 0, 137, 83]
 
 def setPumpOut(state):
     if state == True:
@@ -197,21 +200,65 @@ def setPumpOut(state):
     print(serial_read_data(ser))
 
 # while True:
-#     setDevice1(True)
+#     print("MIXER 1")
+#     setMixer1(True)
 #     time.sleep(2)
-#     setDevice1(False)
+#     setMixer1(False)
 #     time.sleep(2)
+
+#     print("MIXER 2")
+#     setMixer2(True)
+#     time.sleep(2)
+#     setMixer2(False)
+#     time.sleep(2)
+
+#     print("MIXER 3")
+#     setMixer3(True)
+#     time.sleep(2)
+#     setMixer3(False)
+#     time.sleep(2)
+
+#     print("SELECTOR 1")
+#     setSelector4(True)
+#     time.sleep(2)
+#     setSelector4(False)
+#     time.sleep(2)
+
+#     print("SELECTOR 2")
+#     setSelector5(True)
+#     time.sleep(2)
+#     setSelector5(False)
+#     time.sleep(2)
+
+#     print("SELECTOR 3")
+#     setSelector6(True)
+#     time.sleep(2)
+#     setSelector6(False)
+#     time.sleep(2)
+
+#     print("PUMP IN")
+#     setPumpIn(True)
+#     time.sleep(2)
+#     setPumpIn(False)
+#     time.sleep(2)
+
+#     print("PUMP OUT")
+#     setPumpOut(True)
+#     time.sleep(2)
+#     setPumpOut(False)
+#     time.sleep(2)
+
 
 # while True:
 #     print("TEST SENSOR")
 
-#     print("flow:")
-#     print(readFlow())
-#     time.sleep(2)
+# #     print("flow:")
+# #     print(readFlow())
+# #     time.sleep(2)
 
-#     print("sonar:")
-#     print(readSonar())
-#     time.sleep(2)
+# #     print("sonar:")
+# #     print(readSonar())
+# #     time.sleep(2)
 
 #     print("soil moisture:")
 #     print(readMoisture())

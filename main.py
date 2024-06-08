@@ -1,6 +1,8 @@
-from controller import *
+# from controller import *
+from SCH_Controller import * 
 
 if __name__ == "__main__":
-    controller = Controller()
-    create_clients(controller)
-    controller.run()
+    # controller = Controller()
+    SCH_Controller = SCH_Controller(scheduler=Scheduler())
+    create_clients(SCH_Controller)
+    SCH_Controller.run()         
