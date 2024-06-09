@@ -53,7 +53,7 @@ def readTemperature():
     time.sleep(1)
     # đọc dữ liệu trả về từ thiết bị. 
     # Giá trị trả về từ hàm này sẽ là kết quả đọc được từ thiết bị.
-    return serial_read_data(ser)
+    return serial_read_data(ser)/100
 
 # ==================================================
 # =========     SOIL MOISTURE        ===============
@@ -63,7 +63,7 @@ def readMoisture():
     serial_read_data(ser)
     ser.write(soil_moisture)
     time.sleep(1)
-    return serial_read_data(ser)
+    return serial_read_data(ser)/100
 
 # ==================================================
 # =========     FLOW SENSOR       ==================
@@ -199,12 +199,20 @@ def setPumpOut(state):
     time.sleep(1)
     print(serial_read_data(ser))
 
-# while True:
-#     print("MIXER 1")
-#     setMixer1(True)
-#     time.sleep(2)
-#     setMixer1(False)
-#     time.sleep(2)
+while True:
+    print("MIXER 1")
+    setMixer1(True)
+    time.sleep(2)
+    setMixer1(False)
+    time.sleep(2)
+
+    print("soil moisture:")
+    print(readMoisture())
+    time.sleep(2)
+
+    print("temp: ")
+    print(readTemperature())
+    time.sleep(2)
 
 #     print("MIXER 2")
 #     setMixer2(True)
@@ -259,11 +267,3 @@ def setPumpOut(state):
 # #     print("sonar:")
 # #     print(readSonar())
 # #     time.sleep(2)
-
-#     print("soil moisture:")
-#     print(readMoisture())
-#     time.sleep(2)
-
-#     print("temp: ")
-#     print(readTemperature())
-#     time.sleep(2)
