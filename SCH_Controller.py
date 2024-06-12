@@ -145,12 +145,11 @@ class SCH_Controller:
     def run(self):
         # gọi hàm process_state
         self.scheduler.SCH_Init()
-        self.scheduler.SCH_Add_Task(self.update_soil_sensor, 0, 1000) #delay = 0, period = 10s
+        # self.scheduler.SCH_Add_Task(self.update_soil_sensor, 0, 1000) #delay = 0, period = 10s
         self.scheduler.SCH_Add_Task(self.process_state, 0, 1000)  # delay = 0, period = 10s
         while True:
             self.scheduler.SCH_Update() 
             self.scheduler.SCH_Dispatch_Tasks()
-            # time.sleep(0.1) # 100ms
             time.sleep(1) # 1s
 
     # ========= FSM ============================
