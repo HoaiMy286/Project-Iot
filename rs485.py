@@ -189,15 +189,23 @@ def setPumpOut(state):
     print(serial_read_data(ser, expected_id=8))
 
 # Test
-while True:
-    print("MIXER 1")
-    setMixer1(True)
-    time.sleep(2)
-    setMixer1(False)
+# while True:
+#     print("MIXER 1")
+#     setMixer1(True)
+#     time.sleep(2)
+#     setMixer1(False)
+#     time.sleep(2)
+
+#     print("MIXER 2")
+#     setMixer2(True)
+#     time.sleep(2)
+#     setMixer2(False)
+#     time.sleep(2)
+
+    print("soil moisture:")
+    print(readMoisture())
     time.sleep(2)
 
-    print("MIXER 2")
-    setMixer2(True)
-    time.sleep(2)
-    setMixer2(False)
+    print("temp: ")
+    print(readTemperature())
     time.sleep(2)
