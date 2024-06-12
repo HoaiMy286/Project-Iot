@@ -21,7 +21,7 @@ try:
 except Exception as e:
     print("Cannot open the port:", e)
 
-def serial_read_data(ser, expected_id=None, max_attempts=10):
+def serial_read_data(ser, expected_id=None, max_attempts=5):
     attempts = 0
     while attempts < max_attempts:
         attempts += 1
