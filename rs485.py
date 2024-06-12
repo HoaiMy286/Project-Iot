@@ -21,7 +21,7 @@ try:
 except Exception as e:
     print("Cannot open the port:", e)
 
-def serial_read_data(ser, expected_id=None, max_attempts=5):
+def serial_read_data(ser, expected_id=None, max_attempts=10):
     attempts = 0
     while attempts < max_attempts:
         attempts += 1
@@ -31,7 +31,7 @@ def serial_read_data(ser, expected_id=None, max_attempts=5):
             out = ser.read(bytesToRead)
             data_array = [b for b in out]
             print(f"Attempt {attempts}, Data received: {data_array}")
-            if len(data_array) >= 7:
+            if len(data_array) == 8: 
                 array_size = len(data_array)
                 value = data_array[array_size - 4] * 256 + data_array[array_size - 3]
                 if expected_id is not None:
@@ -43,7 +43,7 @@ def serial_read_data(ser, expected_id=None, max_attempts=5):
                     return value
         else:
             print(f"Attempt {attempts}, no data received.")
-            
+
     print("Max attempts reached, did not receive expected ID")
     return -1
 
