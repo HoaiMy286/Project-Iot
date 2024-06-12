@@ -24,27 +24,29 @@ try:
 except:
     print("Can not open the port")
 
-def serial_read_data(ser, expected_id=None):
-    bytesToRead = ser.inWaiting()
-    if bytesToRead > 0:
-        out = ser.read(bytesToRead)
-        data_array = [b for b in out]
-        print(data_array)
-        if len(data_array) >= 7:
-            array_size = len(data_array)
-            value = data_array[array_size - 4] * 256 + data_array[array_size - 3]
+def serial_read_data(ser, expected_id=None, max_attempts=5):
+    attempts = 0
+    while attempts < max_attempts:
+        attempts += 1
+        bytesToRead = ser.inWaiting()
+        if bytesToRead > 0:
+            out = ser.read(bytesToRead)
+            data_array = [b for b in out]
+            print(data_array)
+            if len(data_array) >= 7:
+                array_size = len(data_array)
+                value = data_array[array_size - 4] * 256 + data_array[array_size - 3]
 
-            if expected_id is not None:
-                if data_array[0] == expected_id:
-                    return value
+                if expected_id is not None:
+                    if data_array[0] == expected_id:
+                        return value
+                    else:
+                        print(f"Unexpected ID: {data_array[0]}, expected: {expected_id}")
                 else:
-                    print("Unexpected ID: ", data_array[0])
-                    return -1
-            else:
-                return value
-        else:
-            return -1
-    return 0
+                    return value
+        time.sleep(1)  # Thời gian chờ trước khi thử lại
+    print("Max attempts reached, did not receive expected ID")
+    return -1
 
 # ==================================================
 # =========     TEMP          ======================
@@ -243,14 +245,3 @@ while True:
 #     setSelector6(True)
 #     time.sleep(2)
 #     setSelector6(False)
-#     time.sleep(2)
-
-#     print("PUMP IN")
-#     setPumpIn(True)
-#     time.sleep(2)
-#     setPumpIn(False)
-#     time.sleep(2)
-
-#     print("PUMP OUT")
-#     setPumpOut(True)
-#     time.sleep(
