@@ -85,7 +85,7 @@ def readSonar():
     # ser.write(sonar_sensor)
     # time.sleep(1)
     # return serial_read_data(ser)
-    return 100
+    return 1
 
 # ==================================================
 # =========     MIXER 1        =====================

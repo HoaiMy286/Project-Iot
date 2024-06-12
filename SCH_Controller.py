@@ -143,7 +143,7 @@ class SCH_Controller:
     def run(self):
         # gọi hàm process_state
         self.scheduler.SCH_Init()
-        # self.scheduler.SCH_Add_Task(self.update_soil_sensor, 0, 30000) #delay = 0, period = 1s
+        # self.scheduler.SCH_Add_Task(self.update_soil_sensor, 0, 1000) #delay = 0, period = 1s
         self.scheduler.SCH_Add_Task(self.process_state, 0, 1000)  # delay = 0, period = 10s
         while True:
             self.scheduler.SCH_Update() 
@@ -168,7 +168,8 @@ class SCH_Controller:
         elif self.state == "MIXER_1":
             print("STATE MIXER_1")
             self.client1.publish("notification", 1)
-            setMixer1(True)
+            if self.fertilizer_id1 != "0":
+                setMixer1(True)
             elapsed_time = (now - self.previous_state_start_time).total_seconds()
             if int(readFlow()) >= int(self.fertilizer_id1) or elapsed_time >= int(self.fertilizer_id1) / 2:
                 setMixer1(False)
@@ -178,7 +179,8 @@ class SCH_Controller:
         elif self.state == "MIXER_2":
             print("STATE MIXER_2")
             self.client1.publish("notification", 2)
-            setMixer2(True)
+            if self.fertilizer_id2 != "0":
+                setMixer2(True)
             elapsed_time = (now - self.previous_state_start_time).total_seconds()
             if int(readFlow()) >= int(self.fertilizer_id2) or elapsed_time >= int(self.fertilizer_id2) / 2:
                 setMixer2(False)
@@ -188,7 +190,8 @@ class SCH_Controller:
         elif self.state == "MIXER_3":
             print("STATE MIXER_3")
             self.client1.publish("notification", 3)
-            setMixer3(True)
+            if self.fertilizer_id3 != "0":
+                setMixer3(True)
             elapsed_time = (now - self.previous_state_start_time).total_seconds()
             if int(readFlow()) >= int(self.fertilizer_id3) or elapsed_time >= int(self.fertilizer_id3) / 2:
                 setMixer3(False)
@@ -200,7 +203,7 @@ class SCH_Controller:
             self.client1.publish("notification", 4)
             setPumpIn(True)
             elapsed_time = (now - self.previous_state_start_time).total_seconds()
-            if int(readSonar()) <= 100 or elapsed_time >= 60:
+            if int(readSonar()) <= 1 or elapsed_time >= 60:
                 setPumpIn(False)
                 self.state = "SELECTOR"
                 self.previous_state_start_time = now
@@ -226,7 +229,7 @@ class SCH_Controller:
             self.client1.publish("notification", 5)
             setPumpOut(True)
             elapsed_time = (now - self.previous_state_start_time).total_seconds()
-            if int(readSonar()) >= 200 or elapsed_time >= 60:
+            if int(readSonar()) >= 2 or elapsed_time >= 60:
                 setPumpOut(False)
                 self.state = "NEXT_CYCLE"
                 self.previous_state_start_time = now
