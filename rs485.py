@@ -41,6 +41,9 @@ def serial_read_data(ser, expected_id=None, max_attempts=5):
                         print(f"Unexpected ID: {data_array[0]}, expected: {expected_id}")
                 else:
                     return value
+        else:
+            print(f"Attempt {attempts}, no data received.")
+            
     print("Max attempts reached, did not receive expected ID")
     return -1
 
