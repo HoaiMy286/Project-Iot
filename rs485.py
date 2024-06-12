@@ -188,6 +188,18 @@ def setPumpOut(state):
     time.sleep(1)
     print(serial_read_data(ser, expected_id=8))
 
+# ==================================================
+# =========     FLOW SENSOR       ==================
+
+def readFlow():
+    return 40
+
+# ==================================================
+# =========     SONAR SENSOR        ================
+
+def readSonar():
+    return 1
+
 # Test
 # while True:
 #     print("MIXER 1")
