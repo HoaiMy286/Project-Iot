@@ -189,7 +189,7 @@ def setPumpOut(state):
     print(serial_read_data(ser, expected_id=8))
 
 # Test
-# while True:
+while True:
 #     print("MIXER 1")
 #     setMixer1(True)
 #     time.sleep(2)
