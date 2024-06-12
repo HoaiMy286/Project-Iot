@@ -12,31 +12,28 @@ def getPort():
             splitPort = strPort.split(" ")
             commPort = (splitPort[0])
     return commPort
-    # return "/dev/ttyUSB1"
 
-# portName = "COM3"
-# portName = getPort()
 print(getPort())
 
 try:
     ser = serial.Serial(port=getPort(), baudrate=9600)
     print("Open successfully")
-except:
-    print("Can not open the port")
+except Exception as e:
+    print("Cannot open the port:", e)
 
 def serial_read_data(ser, expected_id=None, max_attempts=5):
     attempts = 0
     while attempts < max_attempts:
         attempts += 1
+        time.sleep(1)  # Thời gian chờ trước khi đọc
         bytesToRead = ser.inWaiting()
         if bytesToRead > 0:
             out = ser.read(bytesToRead)
             data_array = [b for b in out]
-            print(data_array)
+            print(f"Attempt {attempts}, Data received: {data_array}")
             if len(data_array) >= 7:
                 array_size = len(data_array)
                 value = data_array[array_size - 4] * 256 + data_array[array_size - 3]
-
                 if expected_id is not None:
                     if data_array[0] == expected_id:
                         return value
@@ -44,7 +41,6 @@ def serial_read_data(ser, expected_id=None, max_attempts=5):
                         print(f"Unexpected ID: {data_array[0]}, expected: {expected_id}")
                 else:
                     return value
-        time.sleep(1)  # Thời gian chờ trước khi thử lại
     print("Max attempts reached, did not receive expected ID")
     return -1
 
@@ -53,7 +49,7 @@ def serial_read_data(ser, expected_id=None, max_attempts=5):
 
 soil_temperature = [10, 3, 0, 6, 0, 1, 101, 112]
 def readTemperature():
-    serial_read_data(ser)
+    serial_read_data(ser)  # Xóa dữ liệu cũ
     ser.write(soil_temperature)
     time.sleep(1)
     return serial_read_data(ser, expected_id=10) / 100
@@ -63,32 +59,10 @@ def readTemperature():
 
 soil_moisture = [10, 3, 0, 7, 0, 1, 52, 176]
 def readMoisture():
-    serial_read_data(ser)
+    serial_read_data(ser)  # Xóa dữ liệu cũ
     ser.write(soil_moisture)
     time.sleep(1)
     return serial_read_data(ser, expected_id=10) / 100
-
-# ==================================================
-# =========     FLOW SENSOR       ==================
-
-# flow_sensor = [1, 3, 0, 1, 0, 1, 213, 202]
-def readFlow():
-    # serial_read_data(ser)
-    # ser.write(flow_sensor)
-    # time.sleep(1)
-    # return serial_read_data(ser, expected_id=1)
-    return 40
-
-# ==================================================
-# =========     SONAR SENSOR        ================
-
-# sonar_sensor = [1, 3, 0, 2, 0, 1, 37, 202]
-def readSonar():
-    # serial_read_data(ser)
-    # ser.write(sonar_sensor)
-    # time.sleep(1)
-    # return serial_read_data(ser, expected_id=1)
-    return 1
 
 # ==================================================
 # =========     MIXER 1        =====================
@@ -97,6 +71,7 @@ mixer1_ON  = [1, 6, 0, 0, 0, 255, 201, 138]
 mixer1_OFF = [1, 6, 0, 0, 0, 0, 137, 202]
 
 def setMixer1(state):
+    serial_read_data(ser)  # Xóa dữ liệu cũ
     if state == True:
         ser.write(mixer1_ON)
     else:
@@ -111,6 +86,7 @@ mixer2_ON  = [2, 6, 0, 0, 0, 255, 201, 185]
 mixer2_OFF = [2, 6, 0, 0, 0, 0, 137, 249]
 
 def setMixer2(state):
+    serial_read_data(ser)  # Xóa dữ liệu cũ
     if state == True:
         ser.write(mixer2_ON)
     else:
@@ -125,6 +101,7 @@ mixer3_ON  = [3, 6, 0, 0, 0, 255, 200, 104]
 mixer3_OFF = [3, 6, 0, 0, 0, 0, 136, 40]
 
 def setMixer3(state):
+    serial_read_data(ser)  # Xóa dữ liệu cũ
     if state == True:
         ser.write(mixer3_ON)
     else:
@@ -139,6 +116,7 @@ selector4_ON  = [4, 6, 0, 0, 0, 255, 201, 223]
 selector4_OFF = [4, 6, 0, 0, 0, 0, 137, 159]
 
 def setSelector4(state):
+    serial_read_data(ser)  # Xóa dữ liệu cũ
     if state == True:
         ser.write(selector4_ON)
     else:
@@ -153,6 +131,7 @@ selector5_ON  = [5, 6, 0, 0, 0, 255, 200, 14]
 selector5_OFF = [5, 6, 0, 0, 0, 0, 136, 78]
 
 def setSelector5(state):
+    serial_read_data(ser)  # Xóa dữ liệu cũ
     if state == True:
         ser.write(selector5_ON)
     else:
@@ -161,12 +140,13 @@ def setSelector5(state):
     print(serial_read_data(ser, expected_id=5))
 
 # ==================================================
-# =========     SELECTOR 5        ==================
+# =========     SELECTOR 6        ==================
 
 selector6_ON  = [6, 6, 0, 0, 0, 255, 200, 61]
 selector6_OFF = [6, 6, 0, 0, 0, 0, 136, 125]
 
 def setSelector6(state):
+    serial_read_data(ser)  # Xóa dữ liệu cũ
     if state == True:
         ser.write(selector6_ON)
     else:
@@ -181,6 +161,7 @@ pumpin_ON  = [7, 6, 0, 0, 0, 255, 201, 236]
 pumpin_OFF = [7, 6, 0, 0, 0, 0, 137, 172]
 
 def setPumpIn(state):
+    serial_read_data(ser)  # Xóa dữ liệu cũ
     if state == True:
         ser.write(pumpin_ON)
     else:
@@ -195,6 +176,7 @@ pumpout_ON  = [8, 6, 0, 0, 0, 255, 201, 19]
 pumpout_OFF = [8, 6, 0, 0, 0, 0, 137, 83]
 
 def setPumpOut(state):
+    serial_read_data(ser)  # Xóa dữ liệu cũ
     if state == True:
         ser.write(pumpout_ON)
     else:
@@ -209,39 +191,8 @@ while True:
     setMixer1(False)
     time.sleep(2)
 
-#     print("soil moisture:")
-#     print(readMoisture())
-#     time.sleep(2)
-
-#     print("temp: ")
-#     print(readTemperature())
-#     time.sleep(2)
-
     print("MIXER 2")
     setMixer2(True)
     time.sleep(2)
     setMixer2(False)
     time.sleep(2)
-
-#     print("MIXER 3")
-#     setMixer3(True)
-#     time.sleep(2)
-#     setMixer3(False)
-#     time.sleep(2)
-
-#     print("SELECTOR 1")
-#     setSelector4(True)
-#     time.sleep(2)
-#     setSelector4(False)
-#     time.sleep(2)
-
-#     print("SELECTOR 2")
-#     setSelector5(True)
-#     time.sleep(2)
-#     setSelector5(False)
-#     time.sleep(2)
-
-#     print("SELECTOR 3")
-#     setSelector6(True)
-#     time.sleep(2)
-#     setSelector6(False)
