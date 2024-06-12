@@ -118,6 +118,7 @@ class SCH_Controller:
 
     # lọc và gửi dữ liệu 
     def update_soil_sensor(self):
+        print("=====================================")
         new_moisture = readMoisture()
         new_temperature = readTemperature()
 
@@ -136,7 +137,8 @@ class SCH_Controller:
             self.client2.publish("temperature", new_temperature)
         else:
             print("temperature reading out of variance: ", new_temperature)
-
+        
+        print("=====================================")
     # =====================================
     # =====================================
 
